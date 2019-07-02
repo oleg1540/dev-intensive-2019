@@ -48,9 +48,10 @@ object Utils {
         )
         var result = ""
         var addString: String
-        var isUpperCase = true
+        var isUpperCase: Boolean
         var key: String
         for (symbol in payload) {
+            isUpperCase = symbol.isUpperCase()
             key = symbol.toLowerCase().toString()
             addString = when {
                 key in map -> map[key].toString()
@@ -58,7 +59,6 @@ object Utils {
                 else -> symbol.toString()
             }
             result = result.plus(if (isUpperCase) addString.capitalize() else addString)
-            isUpperCase = addString.compareTo(divider) === 0
         }
         return result
     }
@@ -67,9 +67,9 @@ object Utils {
         var result: String? = null
         if (!firstName?.trim().isNullOrEmpty()) {
             result = firstName!![0].toUpperCase().toString()
-            if (!lastName?.trim().isNullOrEmpty()) {
-                result = result.plus(lastName!![0].toUpperCase().toString())
-            }
+        }
+        if (!lastName?.trim().isNullOrEmpty()) {
+            result = (if (result.isNullOrEmpty()) "" else result).plus(lastName!![0].toUpperCase().toString())
         }
         return result
     }
