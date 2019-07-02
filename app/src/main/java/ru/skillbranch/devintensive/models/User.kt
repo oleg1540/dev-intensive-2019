@@ -57,35 +57,35 @@ data class User (
         private var lastVisit: Date = Date()
         private var isOnline: Boolean = false
 
-        fun id(value: String)  {
+        fun id(value: String) = apply {
             id = value
         }
 
-        fun firstName(value: String) {
+        fun firstName(value: String) = apply {
             firstName = value
         }
 
-        fun lastName(value: String) {
+        fun lastName(value: String) = apply {
             lastName = value
         }
 
-        fun avatar(value: String) {
+        fun avatar(value: String) = apply {
             avatar = value
         }
 
-        fun rating(value: Int) {
+        fun rating(value: Int) = apply {
             rating = value
         }
 
-        fun respect(value: Int) {
+        fun respect(value: Int) = apply {
             respect = value
         }
 
-        fun lastVisit(value: Date) {
+        fun lastVisit(value: Date) = apply {
             lastVisit = value
         }
 
-        fun isOnline(value: Boolean) {
+        fun isOnline(value: Boolean) = apply {
             isOnline = value
         }
 
