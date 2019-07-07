@@ -12,10 +12,31 @@ const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
 enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND {
+        override fun plural(i: Int): String {
+            return prefixPlural(i) + Utils.pluralizeSecond(i)
+        }
+    },
+    MINUTE {
+        override fun plural(i: Int): String {
+            return prefixPlural(i) + Utils.pluralizeMinute(i)
+        }
+    },
+    HOUR {
+        override fun plural(i: Int): String {
+            return prefixPlural(i) + Utils.pluralizeHour(i)
+        }
+    },
+    DAY {
+        override fun plural(i: Int): String {
+            return prefixPlural(i) + Utils.pluralizeDay(i)
+        }
+    };
+
+    abstract fun plural(i: Int): String
+    fun prefixPlural(i:Int): String {
+        return "$i "
+    }
 }
 
 fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
