@@ -14,12 +14,12 @@ const val DAY = 24 * HOUR
 enum class TimeUnits {
     SECOND {
         override fun plural(i: Int): String {
-            return prefixPlural(i) + Utils.pluralizeSecond(i)
+            return prefixPlural(i) + Utils.pluralizeSecond(i, 3)
         }
     },
     MINUTE {
         override fun plural(i: Int): String {
-            return prefixPlural(i) + Utils.pluralizeMinute(i)
+            return prefixPlural(i) + Utils.pluralizeMinute(i, 3)
         }
     },
     HOUR {

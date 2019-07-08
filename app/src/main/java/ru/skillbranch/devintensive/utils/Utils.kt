@@ -86,20 +86,20 @@ object Utils {
         }
     }
 
-    fun pluralizeSecond(n: Int): String {
+    fun pluralizeSecond(n: Int, case: Int = 0): String {
         return when(plural(n)) {
             0 -> "секунд"
-            1 -> "секунда"
+            1 -> if (case == 3) "секунду" else "секунда"
             2 -> "секунды"
             3 -> "секунд"
             else -> "секунд"
         }
     }
 
-    fun pluralizeMinute(n: Int): String {
+    fun pluralizeMinute(n: Int, case: Int = 0): String {
         return when(plural(n)) {
             0 -> "минут"
-            1 -> "минута"
+            1 -> if (case == 3) "минуту" else "минута"
             2 -> "минуты"
             3 -> "минут"
             else -> "минут"
