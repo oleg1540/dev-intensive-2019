@@ -14,6 +14,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
@@ -28,7 +30,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //benderImage = findViewById(R.id.iv_bender)
         benderImage = iv_bender
         textTxt = tv_text
         messageEt = et_message
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         val errorNum = savedInstanceState?.getInt("ERROR_NUM") ?: 0
         benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question), errorNum)
 
-        Log.d("M_MainActivity", "onCreate $status $question")
+        Log.d("M_MainActivity", "onCreate $status $question $errorNum")
 
         val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
 
         outState?.putString("STATUS", benderObj.status.name)
         outState?.putString("QUESTION", benderObj.question.name)
-        outState?.putString("ERROR_NUM", benderObj.errorNum.toString())
+        outState?.putInt("ERROR_NUM", benderObj.errorNum)
         Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name} ${benderObj.errorNum}")
     }
 
@@ -100,11 +101,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         return false
     }
 
-    fun sendMessage() {
+    private fun sendMessage() {
         val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
         messageEt.setText("")
         val (r, g, b) = color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phrase
+        this.hideKeyboard()
     }
 }
