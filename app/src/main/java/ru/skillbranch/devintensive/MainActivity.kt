@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         sendBtn = iv_send
         val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
-        benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question))
+        val errorNum = savedInstanceState?.getInt("ERROR_NUM") ?: 0
+        benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question), errorNum)
 
         Log.d("M_MainActivity", "onCreate $status $question")
 
@@ -82,7 +83,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
 
         outState?.putString("STATUS", benderObj.status.name)
         outState?.putString("QUESTION", benderObj.question.name)
-        Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name}")
+        outState?.putString("ERROR_NUM", benderObj.errorNum.toString())
+        Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name} ${benderObj.errorNum}")
     }
 
     override fun onClick(v: View?) {
@@ -99,7 +101,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     }
 
     fun sendMessage() {
-        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
         messageEt.setText("")
         val (r, g, b) = color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
