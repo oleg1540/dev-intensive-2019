@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.graphics.Rect
 import android.util.Log
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import android.util.DisplayMetrics
 import android.os.Build
 

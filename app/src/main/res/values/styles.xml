@@ -1,11 +1,51 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+    <style name="Profile">
+    </style>
+
+    <style name="Profile.EditText">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:paddingTop">@dimen/spacing_tiny_4</item>
+        <item name="android:enabled">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+    <style name="Profile.EditText.Single">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Profile.EditText.Multiline">
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLength">128</item>
+    </style>
+
+    <style name="Profile.Header">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Profile.Header.Nickname">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/font_large_20</item>
+        <item name="android:layout_marginTop">@dimen/spacing_normal_16</item>
+    </style>
+
+    <style name="Profile.Header.Rank">
+        <item name="android:textSize">@dimen/font_normal_16</item>
+    </style>
+
+    <style name="Profile.Metrics">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Profile.Metrics.Label">
+        <item name="android:textSize">@dimen/font_normal_16</item>
+    </style>
+
+    <style name="Profile.Metrics.Value">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/font_large_20</item>
+        <item name="android:drawablePadding">@dimen/spacing_tiny_4</item>
     </style>
 
 </resources>
