@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.isGithubUrl
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -72,6 +74,19 @@ class ProfileActivity : AppCompatActivity() {
         btn_switch_theme.setOnClickListener {
             viewModel.switchTheme()
         }
+
+        //wr_repository.error = "Невалидный адрес репозитория"
+
+        et_repository.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (!et_repository.text.toString().isGithubUrl()) {
+                wr_repository.error = "Невалидный адрес репозитория"
+            } else {
+                wr_repository.error = null
+            }
+            return@OnKeyListener false
+        })
+
+
     }
 
     /**

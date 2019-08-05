@@ -13,6 +13,11 @@ fun String.stripHtml(): String {
     return this.replace("<[^>]*>".toRegex(),"").trim().removeHtmlEscape().removeDoubleWhitespace()
 }
 
+fun String.isGithubUrl(): Boolean {
+    val regex = Regex(pattern = "^(https:\\/\\/|www\\.|https:\\/\\/www\\.)*github\\.com\\/((?!login|enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|join)[\\w|_]+)\$")
+    return this.isEmpty() || regex.containsMatchIn(input = this.trim())    // matched: true
+}
+
 private fun String.removeDoubleWhitespace(): String {
     var result = ""
     var prev: Char = 0.toChar()
