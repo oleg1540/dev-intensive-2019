@@ -26,6 +26,7 @@ class ProfileActivity : AppCompatActivity() {
 
     lateinit var viewModel: ProfileViewModel
     var isEditMode = false
+    var isAllowSave = true
     lateinit var viewFields: Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +65,13 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if (isEditMode) {
-                saveProfileInfo()
+            if (isAllowSave) {
+                if (isEditMode) {
+                    saveProfileInfo()
+                }
+                isEditMode = !isEditMode
+                showCurrentMode(isEditMode)
             }
-            isEditMode = !isEditMode
-            showCurrentMode(isEditMode)
         }
 
         btn_switch_theme.setOnClickListener {
@@ -80,8 +83,10 @@ class ProfileActivity : AppCompatActivity() {
         et_repository.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (!et_repository.text.toString().isGithubUrl()) {
                 wr_repository.error = "Невалидный адрес репозитория"
+                isAllowSave = false
             } else {
                 wr_repository.error = null
+                isAllowSave = true
             }
             return@OnKeyListener false
         })
