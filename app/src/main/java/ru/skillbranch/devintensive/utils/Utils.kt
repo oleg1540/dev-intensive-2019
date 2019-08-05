@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.res.Resources
 import kotlin.math.abs
 
 object Utils {
@@ -125,4 +126,8 @@ object Utils {
             else -> "дней"
         }
     }
+
+    fun dpToPx(value: Int): Int = (value * Resources.getSystem().displayMetrics.density).toInt()
+
+    fun pxToDp(value: Int): Int = (value / Resources.getSystem().displayMetrics.density).toInt()
 }

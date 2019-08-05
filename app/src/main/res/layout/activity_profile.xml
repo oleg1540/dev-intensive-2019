@@ -238,8 +238,7 @@
                 android:layout_weight="1"
                 android:layout_toRightOf="@id/ic_avatar"
                 android:layout_marginLeft="@dimen/spacing_normal_16"
-                android:id="@+id/wr_repository"
-                app:errorEnabled="true">
+                android:id="@+id/wr_repository">
             <EditText
                     style="@style/Profile.EditText.Single"
                     android:layout_width="match_parent"

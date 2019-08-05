@@ -1,14 +1,15 @@
 package ru.skillbranch.devintensive.ui.profile
 
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.annotation.SuppressLint
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +17,9 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.isGithubUrl
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
+import android.util.TypedValue
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     var isEditMode = false
     var isAllowSave = true
     lateinit var viewFields: Map<String, TextView>
+    private val textBounds = Rect()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,7 @@ class ProfileActivity : AppCompatActivity() {
         Log.d("M_MainActivity", "onCreate")
         initViews(savedInstanceState)
         initViewModel()
+        avatarFromInitials()
     }
 
     /**
@@ -49,6 +54,7 @@ class ProfileActivity : AppCompatActivity() {
     /**
      * Инициализация полей
      */
+    @SuppressLint("ResourceAsColor")
     private fun initViews(savedInstanceState: Bundle?) {
         viewFields = mapOf(
             "nickName" to tv_nick_name,
@@ -78,20 +84,18 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        //wr_repository.error = "Невалидный адрес репозитория"
-
-        et_repository.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        et_repository.setOnKeyListener(View.OnKeyListener { _, _, _->
             if (!et_repository.text.toString().isGithubUrl()) {
+                wr_repository.isErrorEnabled = true
                 wr_repository.error = "Невалидный адрес репозитория"
                 isAllowSave = false
             } else {
+                wr_repository.isErrorEnabled = false
                 wr_repository.error = null
                 isAllowSave = true
             }
             return@OnKeyListener false
         })
-
-
     }
 
     /**
@@ -106,6 +110,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateTheme(mode: Int) {
         Log.d("M_ProfileActivity", "updateTheme")
         delegate.setLocalNightMode(mode)
+        avatarFromInitials()
     }
 
     /**
@@ -130,6 +135,7 @@ class ProfileActivity : AppCompatActivity() {
             repository = et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
+            avatarFromInitials()
         }
     }
 
@@ -168,6 +174,52 @@ class ProfileActivity : AppCompatActivity() {
             background.colorFilter = filter
             setImageDrawable(icon)
         }
+    }
+
+    private fun avatarFromInitials() {
+        val profile = viewModel.getProfileData().value
+        if (profile?.firstName.isNullOrEmpty() && profile?.lastName.isNullOrEmpty()) {
+            return
+        }
+        val text = Utils.toInitials(profile?.firstName, profile?.lastName)
+        val size = Utils.dpToPx(112)
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_4444)
+        val canvas = Canvas(bitmap)
+
+        // canvas background color
+        canvas.drawARGB(0, 255, 255, 255)
+
+        var paint = Paint()
+        paint.color = getColorByReference(R.attr.colorAccent)
+        paint.style = Paint.Style.FILL
+
+        // get device dimensions
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        // circle center
+        val radius = size / 2f
+        var centerX = radius
+        var centerY = radius
+
+        // draw circle
+        canvas.drawCircle(centerX, centerY, radius, paint)
+        // now bitmap holds the updated pixels
+
+        val textSize = Utils.dpToPx(50).toFloat()
+        paint.color = Color.parseColor("#FFFFFF")
+        paint.textAlign = Paint.Align.CENTER
+        paint.textSize = textSize
+        paint.getTextBounds(text, 0, text!!.length, textBounds)
+        canvas.drawText(text, centerX, centerY - textBounds.exactCenterY(), paint)
+
+        // set bitmap as background to ImageView
+        iv_avatar.setImageBitmap(BitmapDrawable(resources, bitmap).bitmap)
+    }
+
+    private fun getColorByReference(color: Int): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(color, typedValue, true)
+        return typedValue.data
     }
 
     override fun onRestart() {
