@@ -29,7 +29,7 @@ class ProfileActivity : AppCompatActivity() {
 
     lateinit var viewModel: ProfileViewModel
     var isEditMode = false
-    var isAllowSave = true
+    var isValidRepo = true
     lateinit var viewFields: Map<String, TextView>
     private val textBounds = Rect()
 
@@ -71,13 +71,16 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if (isAllowSave) {
                 if (isEditMode) {
+                    if (!isValidRepo) {
+                        et_repository.setText("")
+                        wr_repository.isErrorEnabled = false
+                        wr_repository.error = null
+                    }
                     saveProfileInfo()
                 }
                 isEditMode = !isEditMode
                 showCurrentMode(isEditMode)
-            }
         }
 
         btn_switch_theme.setOnClickListener {
@@ -88,11 +91,11 @@ class ProfileActivity : AppCompatActivity() {
             if (!et_repository.text.toString().isGithubUrl()) {
                 wr_repository.isErrorEnabled = true
                 wr_repository.error = "Невалидный адрес репозитория"
-                isAllowSave = false
+                isValidRepo = false
             } else {
                 wr_repository.isErrorEnabled = false
                 wr_repository.error = null
-                isAllowSave = true
+                isValidRepo = true
             }
             return@OnKeyListener false
         })
@@ -177,7 +180,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun avatarFromInitials() {
-        return
         val profile = viewModel.getProfileData().value
         if (profile?.firstName.isNullOrEmpty() && profile?.lastName.isNullOrEmpty()) {
             return
