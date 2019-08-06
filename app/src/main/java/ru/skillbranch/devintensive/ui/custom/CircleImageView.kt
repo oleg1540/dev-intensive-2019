@@ -40,6 +40,8 @@ class CircleImageView @JvmOverloads constructor(
     private var mBitmapPaint: Paint? = null
     private var mStrokePaint: Paint? = null
 
+    private var drawInitials = false
+
     init {
         borderWidth = Utils.dpToPx(borderWidth)
 
@@ -56,10 +58,13 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        //super.onDraw(canvas)
         Log.d("M_CircleImageView", "onDraw")
-        drawBitmap(canvas)
-        drawStroke(canvas)
+        if (drawInitials) {
+            super.onDraw(canvas)
+        } else {
+            drawBitmap(canvas)
+            drawStroke(canvas)
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -91,6 +96,11 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setInitialsBackground(bitmap: Bitmap) {
+        drawInitials = true
+        super.setImageBitmap(bitmap)
+    }
+
     private fun initDefault() {
         mShaderMatrix = Matrix()
         mBitmapPaint = Paint(ANTI_ALIAS_FLAG)
@@ -104,12 +114,12 @@ class CircleImageView @JvmOverloads constructor(
 
     private fun drawStroke(canvas: Canvas?) {
         if (mStrokePaint!!.strokeWidth > 0f) {
-            canvas!!.drawOval(mStrokeBounds, mStrokePaint)
+            canvas!!.drawOval(mStrokeBounds!!, mStrokePaint!!)
         }
     }
 
     private fun drawBitmap(canvas: Canvas?) {
-        canvas!!.drawOval(mBitmapDrawBounds, mBitmapPaint)
+        canvas!!.drawOval(mBitmapDrawBounds!!, mBitmapPaint!!)
     }
 
     private fun setupBitmap() {
@@ -118,7 +128,7 @@ class CircleImageView @JvmOverloads constructor(
             return
         }
 
-        mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        mBitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         mBitmapPaint!!.shader = mBitmapShader
 
         updateBitmapSize()

@@ -216,7 +216,8 @@ class ProfileActivity : AppCompatActivity() {
         canvas.drawText(text, centerX, centerY - textBounds.exactCenterY(), paint)
 
         // set bitmap as background to ImageView
-        iv_avatar.setImageBitmap(BitmapDrawable(resources, bitmap).bitmap)
+        //iv_avatar.setImageBitmap(BitmapDrawable(resources, bitmap).bitmap)
+        iv_avatar.setInitialsBackground(BitmapDrawable(resources, bitmap).bitmap)
     }
 
     private fun getColorByReference(color: Int): Int {
