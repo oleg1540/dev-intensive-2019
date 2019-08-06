@@ -177,6 +177,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun avatarFromInitials() {
+        return
         val profile = viewModel.getProfileData().value
         if (profile?.firstName.isNullOrEmpty() && profile?.lastName.isNullOrEmpty()) {
             return
