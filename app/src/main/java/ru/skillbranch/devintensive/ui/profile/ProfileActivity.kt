@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +19,10 @@ import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 import android.util.TypedValue
+import android.text.Editable
+import android.text.TextWatcher
+
+
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -87,18 +90,40 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnKeyListener(View.OnKeyListener { _, _, _->
-            if (!et_repository.text.toString().isGithubUrl()) {
-                wr_repository.isErrorEnabled = true
-                wr_repository.error = "Невалидный адрес репозитория"
-                isValidRepo = false
-            } else {
-                wr_repository.isErrorEnabled = false
-                wr_repository.error = null
-                isValidRepo = true
+        et_repository.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (!et_repository.text.toString().isGithubUrl()) {
+                    wr_repository.isErrorEnabled = true
+                    wr_repository.error = "Невалидный адрес репозитория"
+                    isValidRepo = false
+                } else {
+                    wr_repository.isErrorEnabled = false
+                    wr_repository.error = null
+                    isValidRepo = true
+                }
             }
-            return@OnKeyListener false
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, aft: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+
+            }
         })
+
+//        et_repository.setOnKeyListener(View.OnKeyListener { _, _, _->
+//            if (!et_repository.text.toString().isGithubUrl()) {
+//                wr_repository.isErrorEnabled = true
+//                wr_repository.error = "Невалидный адрес репозитория"
+//                isValidRepo = false
+//            } else {
+//                wr_repository.isErrorEnabled = false
+//                wr_repository.error = null
+//                isValidRepo = true
+//            }
+//            return@OnKeyListener false
+//        })
     }
 
     /**
