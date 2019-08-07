@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import ru.skillbranch.devintensive.R
 import android.util.Log
+import androidx.annotation.ColorInt
 import kotlin.math.min
 
 class CircleImageView @JvmOverloads constructor(
@@ -92,6 +93,10 @@ class CircleImageView @JvmOverloads constructor(
         borderColor = Color.parseColor(hex)
         mStrokePaint!!.color = borderColor
         invalidate()
+    }
+
+    fun setBorderColor(@ColorInt value: Int) {
+        borderColor = value
     }
 
     fun setInitialsBackground(bitmap: Bitmap) {
