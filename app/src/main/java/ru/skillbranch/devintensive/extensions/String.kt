@@ -14,7 +14,7 @@ fun String.stripHtml(): String {
 }
 
 fun String.isGithubUrl(): Boolean {
-    val regex = Regex(pattern = "^(https:\\/\\/|www\\.|https:\\/\\/www\\.)*github\\.com\\/((?!login|enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|join)[\\w|_]+)\$")
+    val regex = Regex(pattern = "^(https:\\/\\/|www\\.|https:\\/\\/www\\.)*github\\.com\\/((?!(login|enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|join)\$)[a-zA-Z\\d-]+)\\/?\$")
     return this.isEmpty() || regex.containsMatchIn(input = this.trim())    // matched: true
 }
 

@@ -43,12 +43,10 @@ class CircleImageView @JvmOverloads constructor(
     private var drawInitials = false
 
     init {
-        borderWidth = Utils.dpToPx(borderWidth)
-
         if(attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, Utils.dpToPx(DEFAULT_BORDER_WIDTH))
+            borderWidth = Utils.pxToDp(a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, Utils.dpToPx(DEFAULT_BORDER_WIDTH)))
             a.recycle()
         }
 
@@ -80,7 +78,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    fun getBorderWidth(): Int = borderWidth
+    fun getBorderWidth(): Int = Utils.pxToDp(borderWidth)
 
     fun setBorderWidth(@Dimension dp: Int) {
         borderWidth = dp
@@ -109,7 +107,7 @@ class CircleImageView @JvmOverloads constructor(
         mBitmapDrawBounds = RectF()
         mStrokePaint!!.color = borderColor
         mStrokePaint!!.style = Paint.Style.STROKE
-        mStrokePaint!!.strokeWidth = borderWidth.toFloat()
+        mStrokePaint!!.strokeWidth = Utils.dpToPx(borderWidth).toFloat()
     }
 
     private fun drawStroke(canvas: Canvas?) {
