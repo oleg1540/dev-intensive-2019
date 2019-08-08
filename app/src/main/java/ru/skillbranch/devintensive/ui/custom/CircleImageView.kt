@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.Dimension
@@ -95,8 +96,14 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBorderColor(@ColorInt value: Int) {
-        borderColor = value
+//    fun setBorderColor(@ColorInt value: Int) {
+//        borderColor = value
+//        invalidate()
+//    }
+
+    fun setBorderColor(value: Int) {
+        borderColor = resources.getColor(value)
+        invalidate()
     }
 
     fun setInitialsBackground(bitmap: Bitmap) {
