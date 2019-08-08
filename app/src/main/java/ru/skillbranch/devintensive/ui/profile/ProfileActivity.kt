@@ -124,14 +124,6 @@ class ProfileActivity : AppCompatActivity() {
 //            }
 //            return@OnKeyListener false
 //        })
-
-        val colorAccent = resources.getIdentifier("color_accent", "color", packageName)
-        iv_avatar.setBorderColor(colorAccent)
-        val color = resources.getColor(colorAccent, theme)
-        Log.d("M_ProfileActivity", "$color = ${iv_avatar.getBorderColor()}")
-
-        iv_avatar.setBorderColor("#FC4C4C")
-        Log.d("M_ProfileActivity", "${Color.parseColor("#FC4C4C")} = ${iv_avatar.getBorderColor()}")
     }
 
     /**
