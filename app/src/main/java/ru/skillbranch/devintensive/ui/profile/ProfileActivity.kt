@@ -93,10 +93,20 @@ class ProfileActivity : AppCompatActivity() {
         et_repository.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (!et_repository.text.toString().isGithubUrl()) {
+                    if (!wr_repository.isErrorEnabled) {
+                        sv_repository.postDelayed({
+                            sv_repository.scrollY += 55
+                        }, 100)
+                    }
                     wr_repository.isErrorEnabled = true
                     wr_repository.error = "Невалидный адрес репозитория"
                     isValidRepo = false
                 } else {
+                    if (wr_repository.isErrorEnabled) {
+                        sv_repository.postDelayed({
+                            sv_repository.scrollY -= 55
+                        }, 100)
+                    }
                     wr_repository.isErrorEnabled = false
                     wr_repository.error = null
                     isValidRepo = true
